@@ -59,3 +59,6 @@ for caracter in output:
             c3=0
     else:
         output+=caracter
+
+# de = deque([1, 2, 3, 4])
+# de.rotate(2)
