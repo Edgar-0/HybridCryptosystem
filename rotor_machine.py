@@ -25,7 +25,7 @@ for element in input:
     print ("Text to encrypt: " + element)
     for caracter in element:
         if caracter.isalpha():
-            r1 = firstconfig[(alphabet.index(caracter)+c1)%26] #added mod 26 to avoid when the rotate is in the last characters like "Y" and it has to restart
+            r1 = firstconfig[(alphabet.index(caracter)+c1)%26] #added mod 26 to avoid when the rotate is in the last characters like "Y" and it must restart
             r2 = secondconfig[(alphabet.index(r1)+c2)%26]
             r3 = thirdconfig[(alphabet.index(r2)+c3)%26]
             eoutput+=r3
