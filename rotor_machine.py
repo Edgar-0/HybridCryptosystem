@@ -164,5 +164,3 @@ def question2():
     key3 = keyrm()
     E3 = encryptrm('SCENARIO3C', key3)
     print(f"Encrypted message with configuration changed: {E3}")
-
-question2()
