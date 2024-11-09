@@ -1,7 +1,7 @@
 from secrets import token_bytes
 from random import randrange
 import hashlib, time
-
+import psutil, os
 
 class DES:
     def __init__(self):
@@ -199,11 +199,32 @@ def sbox():
     ]
     return sboxes
 
+# inner psutil function
+def process_memory():
+    process = psutil.Process(os.getpid())
+    mem_info = process.memory_info()
+    return mem_info.rss
 
-if __name__ == '__main__':
+# decorator function
+def profile(func):
+    def wrapper(*args, **kwargs):
+
+        mem_before = process_memory()
+        result = func(*args, **kwargs)
+        mem_after = process_memory()
+        print("{}:consumed memory: {:,}".format(
+            func.__name__,
+            mem_before, mem_after, mem_after - mem_before))
+
+        return result
+    return wrapper
+
+# instantiation of decorator function
+@profile
+
+def execute():
     message = input("Message: ")
     E1 = message
-
     des = DES()
     time_start = time.perf_counter()
     des_key = des.key_generator()  # Random generated key for increased security
@@ -211,13 +232,14 @@ if __name__ == '__main__':
     E2 = des.encryption(E1, des_key)
     D1 = des.decryption(E2, des_key)
     time_elapsed = (time.perf_counter() - time_start)
-
     # print(f"Message: {E1}")
     print(f"Encrypted message: {E2}")
     print(f"Decrypted message: {D1}")
     print(f"Time: {round(time_elapsed * 1000, 2)} ms")
-
     if not des.integrity_check(D1, des_hash_value):
         print("DES decryption failed")
     else:
         print("DES decryption completed")
+
+if __name__ == '__main__':
+    execute()

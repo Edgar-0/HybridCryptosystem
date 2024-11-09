@@ -1,5 +1,6 @@
-import string, random
+import string, random, time
 from numpy import *
+import psutil, os
 
 def keyrm():
     keys = []
@@ -164,3 +165,34 @@ def question2():
     key3 = keyrm()
     E3 = encryptrm('SCENARIO3C', key3)
     print(f"Encrypted message with configuration changed: {E3}")
+
+# inner psutil function
+def process_memory():
+    process = psutil.Process(os.getpid())
+    mem_info = process.memory_info()
+    return mem_info.rss
+
+# decorator function
+def profile(func):
+    def wrapper(*args, **kwargs):
+
+        mem_before = process_memory()
+        result = func(*args, **kwargs)
+        mem_after = process_memory()
+        print("{}:consumed memory: {:,}".format(
+            func.__name__,
+            mem_before, mem_after, mem_after - mem_before))
+
+        return result
+    return wrapper
+
+# instantiation of decorator function
+@profile
+
+def question7():
+    key1 = keyrm()
+    print(f"Original message: SCENARIO1A")
+    E1 = encryptrm('SCENARIO1A', key1)
+    print(f"Encrypted message: {E1}")
+    E2 = decryptrm(E1, key1)
+    print(f"Decrypted message: {E2}")
