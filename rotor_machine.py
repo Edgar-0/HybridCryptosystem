@@ -139,18 +139,30 @@ def execute():
 # de.rotate(2)
 
 def question1():
-    keyrm = keyrm()
-    E1 = encryptrm('NEW YEAR', keyrm)
+    key = keyrm()
+    E1 = encryptrm('NEW YEAR', key)
     print(f"Encrypted message with initial configuration: {E1}")
     keyrm2 = []
-    other = keyrm[1].copy() #copy of the rotor2
+    other = key[1].copy() #copy of the rotor2
     random.shuffle(other) #suffle of elements to create a different configuration
-    keyrm2.append(keyrm[0].copy()) #append to the new keyrm2 to create changed configuration
+    keyrm2.append(key[0].copy()) #append to the new keyrm2 to create changed configuration
     keyrm2.append(other)
-    keyrm2.append(keyrm[2].copy())
-    keyrm2.append(keyrm[3].copy())
+    keyrm2.append(key[2].copy())
+    keyrm2.append(key[3].copy())
     print("First rotor changed:         " + str(keyrm2[1]))
     E2 = encryptrm('HELLO WORLD', keyrm2)
     print(f"Encrypted message with configuration changed: {E2}")
 
 
+def question2():
+    key1 = keyrm()
+    E1 = encryptrm('SCENARIO1A', key1)
+    print(f"Encrypted message with initial configuration: {E1}")
+    key2 = keyrm()
+    E2 = encryptrm('SCENARIO2B', key2)
+    print(f"Encrypted message with configuration changed: {E2}")
+    key3 = keyrm()
+    E3 = encryptrm('SCENARIO3C', key3)
+    print(f"Encrypted message with configuration changed: {E3}")
+
+question2()
